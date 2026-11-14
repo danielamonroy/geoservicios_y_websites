@@ -1,4 +1,4 @@
-// Crear el mapa centrado en el departamento de La Guainia
+// Crear el mapa centrado en el departamento de Guainia
 const map = L.map('map').setView([2.82, -68.835], 8);
 
 // Agregar capa base de OpenStreetMap
@@ -10,12 +10,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // URL del servicio WMS de GeoServer
 const geoserverUrl = 'https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer/WMSServer';
 
-// Código DANE del departamento a mostrar: La Guainia
+// Código DANE del departamento a mostrar: Guainia
 const GUAINIA_CCDGO = '94';
 
 // Agregar capa WMS de departamentos
 // Nota: el servicio es un ArcGIS MapServer WMS y no admite filtros por atributo (CQL),
-// por lo que se restringe la carga de teselas a la extensión de La Guainia mediante 'bounds'.
+// por lo que se restringe la carga de teselas a la extensión de Guainia mediante 'bounds'.
 const departamentosWMS = L.tileLayer.wms(geoserverUrl, {
     layers: '8',
     format: 'image/png',
@@ -31,7 +31,7 @@ let departamentosGeoJSON; // Variable para almacenar la capa GeoJSON
 fetch(departamentosWFSUrl)
     .then(response => response.json())
     .then(data => {
-        // Crear capa GeoJSON (solo La Guainia)
+        // Crear capa GeoJSON (solo Guainia)
         departamentosGeoJSON = L.geoJSON(data, {
             filter: feature => feature.properties.dpto_ccdgo === GUAINIA_CCDGO,
             style: {
@@ -47,15 +47,15 @@ fetch(departamentosWFSUrl)
         departamentosGeoJSON.addTo(map);
         controlLayer.addOverlay(departamentosGeoJSON, "Departamentos (WFS)"); // Agregar al control de capas
 
-        // Extensión de La Guainia
+        // Extensión de Guainia
         const guainiaBounds = departamentosGeoJSON.getBounds();
 
-        // Restringir las teselas de ambos WMS a la extensión de La Guainia
+        // Restringir las teselas de ambos WMS a la extensión de Guainia
         departamentosWMS.options.bounds = guainiaBounds;
         departamentosWMS.redraw();
         municipiosWMS.options.bounds = guainiaBounds;
 
-        // Centrar la vista en el departamento de La Guainia
+        // Centrar la vista en el departamento de Guainia
         map.fitBounds(guainiaBounds);
     })
     .catch(error => console.error('Error cargando WFS:', error));
@@ -93,7 +93,7 @@ const controlLayer = L.control.layers(baseMaps, overlayMaps, {
 baseMaps["OpenStreetMap"].addTo(map);
 
 // ============================================================
-// Capas detalladas de La Guainia (cartografía base IGAC/DANE)
+// Capas detalladas de Guainia (cartografía base IGAC/DANE)
 // Datos recortados por departamento en datos/94_LA_GUAINIA/.
 // Se cargan de forma diferida (lazy): solo se descarga el GeoJSON
 // cuando el usuario activa la capa en el control, porque algunas
@@ -249,7 +249,7 @@ const info = L.control({position: 'topleft'});
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info');
     this._div.innerHTML = `
-        <h4>La Guainia - Servicios Geográficos</h4>
+        <h4>Guainia - Servicios Geográficos</h4>
         <p>Visualización del departamento y sus municipios</p>
         <p><small>Datos: DANE | Servidor: GeoServer</small></p>
     `;
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Marcador de Riohacha (capital de La Guainia)
+// Marcador de Riohacha (capital de Guainia)
 const riohachaMarker = L.marker([3.8708, -67.9211])
     .addTo(map)
-    .bindPopup('<b>Riohacha</b><br>Capital de La Guainia');
+    .bindPopup('<b>Riohacha</b><br>Capital de Guainia');
