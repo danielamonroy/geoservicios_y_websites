@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Marcador de Riohacha (capital de Guainia)
-const riohachaMarker = L.marker([3.8708, -67.9211])
+// Marcador de Inirida (capital de Guainia)
+const IniridaMarker = L.marker([3.8708, -67.9211])
     .addTo(map)
-    .bindPopup('<b>Riohacha</b><br>Capital de Guainia');
+    .bindPopup('<b>Inirida</b><br>Capital de Guainia');
