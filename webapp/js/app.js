@@ -1,5 +1,5 @@
 // Crear el mapa centrado en el departamento de La Guainia
-const map = L.map('map').setView([11.35, -72.5], 8);
+const map = L.map('map').setView([2.82, -68.835], 8);
 
 // Agregar capa base de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -305,6 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Marcador de Riohacha (capital de La Guainia)
-const riohachaMarker = L.marker([11.5444, -72.9072])
+const riohachaMarker = L.marker([3.8708, -67.9211])
     .addTo(map)
     .bindPopup('<b>Riohacha</b><br>Capital de La Guainia');
