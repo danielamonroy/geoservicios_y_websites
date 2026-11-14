@@ -93,15 +93,15 @@ const controlLayer = L.control.layers(baseMaps, overlayMaps, {
 baseMaps["OpenStreetMap"].addTo(map);
 
 // ============================================================
-// Capas detalladas de La Guajira (cartografía base IGAC/DANE)
-// Datos recortados por departamento en datos/44_LA_GUAJIRA/.
+// Capas detalladas de La Guainia (cartografía base IGAC/DANE)
+// Datos recortados por departamento en datos/94_LA_GUAINIA/.
 // Se cargan de forma diferida (lazy): solo se descarga el GeoJSON
 // cuando el usuario activa la capa en el control, porque algunas
 // (Drenaje, Curvas de Nivel, Vías) pesan varios MB.
 // ============================================================
-const guajiraDataDir = 'https://epiragauta.github.io/geoservicios_y_websites/webapp/datos/44_LA_GUAJIRA/';
+const guainiaDataDir = 'https://epiragauta.github.io/geoservicios_y_websites/webapp/datos/94_LA_GUAINÍA/';
 
-const capasGuajira = [
+const capasGuainia = [
     {
         file: 'Administrativo_P.geojson', label: 'Topónimos administrativos',
         tipo: 'punto', color: '#c62828', radio: 4
@@ -109,10 +109,6 @@ const capasGuajira = [
     {
         file: 'Construccion_P.geojson', label: 'Construcciones',
         tipo: 'punto', color: '#6d4c41', radio: 3
-    },
-    {
-        file: 'Costero_Insular.geojson', label: 'Costero / insular',
-        tipo: 'punto', color: '#00838f', radio: 4
     },
     {
         file: 'Via.geojson', label: 'Vías',
@@ -137,7 +133,7 @@ const capasGuajira = [
 ];
 
 // Construye el contenido del popup a partir de los atributos más relevantes
-function popupGuajira(props) {
+function popupGuainia(props) {
     const campos = [
         ['NOMBRE_GEO', 'Nombre'],
         ['TIPO_VIA', 'Tipo de vía'],
@@ -155,8 +151,8 @@ function popupGuajira(props) {
 }
 
 // Carga (una sola vez) el GeoJSON de una capa dentro de su layerGroup
-function cargarCapaGuajira(cfg) {
-    fetch(guajiraDataDir + cfg.file)
+function cargarCapaGuainia(cfg) {
+    fetch(guainiaDataDir + cfg.file)
         .then(response => response.json())
         .then(data => {
             const capa = L.geoJSON(data, {
@@ -170,7 +166,7 @@ function cargarCapaGuajira(cfg) {
                 }),
                 onEachFeature: (feature, layer) => {
                     if (feature.properties) {
-                        layer.bindPopup(popupGuajira(feature.properties));
+                        layer.bindPopup(popupGuainia(feature.properties));
                     }
                 }
             });
@@ -180,7 +176,7 @@ function cargarCapaGuajira(cfg) {
 }
 
 // Registrar cada capa como overlay con carga diferida
-capasGuajira.forEach(cfg => {
+capasGuainia.forEach(cfg => {
     cfg._group = L.layerGroup();
     cfg._loaded = false;
     controlLayer.addOverlay(cfg._group, cfg.label);
@@ -188,10 +184,10 @@ capasGuajira.forEach(cfg => {
 
 // Al activar una capa por primera vez, descargar su GeoJSON
 map.on('overlayadd', function (e) {
-    const cfg = capasGuajira.find(c => c._group === e.layer);
+    const cfg = capasGuainia.find(c => c._group === e.layer);
     if (cfg && !cfg._loaded) {
         cfg._loaded = true;
-        cargarCapaGuajira(cfg);
+        cargarCapaGuainia(cfg);
     }
 });
 
@@ -253,7 +249,7 @@ const info = L.control({position: 'topleft'});
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info');
     this._div.innerHTML = `
-        <h4>La Guajira - Servicios Geográficos</h4>
+        <h4>La Guainia - Servicios Geográficos</h4>
         <p>Visualización del departamento y sus municipios</p>
         <p><small>Datos: DANE | Servidor: GeoServer</small></p>
     `;
@@ -308,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Marcador de Riohacha (capital de La Guajira)
+// Marcador de Riohacha (capital de La Guainia)
 const riohachaMarker = L.marker([11.5444, -72.9072])
     .addTo(map)
-    .bindPopup('<b>Riohacha</b><br>Capital de La Guajira');
+    .bindPopup('<b>Riohacha</b><br>Capital de La Guainia');
