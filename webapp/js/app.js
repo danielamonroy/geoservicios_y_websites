@@ -1,4 +1,4 @@
-// Crear el mapa centrado en el departamento de La Guajira
+// Crear el mapa centrado en el departamento de La Guainia
 const map = L.map('map').setView([11.35, -72.5], 8);
 
 // Agregar capa base de OpenStreetMap
@@ -10,12 +10,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // URL del servicio WMS de GeoServer
 const geoserverUrl = 'https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer/WMSServer';
 
-// Código DANE del departamento a mostrar: La Guajira
-const GUAJIRA_CCDGO = '44';
+// Código DANE del departamento a mostrar: La Guainia
+const GUAINIA_CCDGO = '94';
 
 // Agregar capa WMS de departamentos
 // Nota: el servicio es un ArcGIS MapServer WMS y no admite filtros por atributo (CQL),
-// por lo que se restringe la carga de teselas a la extensión de La Guajira mediante 'bounds'.
+// por lo que se restringe la carga de teselas a la extensión de La Guainia mediante 'bounds'.
 const departamentosWMS = L.tileLayer.wms(geoserverUrl, {
     layers: '8',
     format: 'image/png',
@@ -31,9 +31,9 @@ let departamentosGeoJSON; // Variable para almacenar la capa GeoJSON
 fetch(departamentosWFSUrl)
     .then(response => response.json())
     .then(data => {
-        // Crear capa GeoJSON (solo La Guajira)
+        // Crear capa GeoJSON (solo La Guainia)
         departamentosGeoJSON = L.geoJSON(data, {
-            filter: feature => feature.properties.dpto_ccdgo === GUAJIRA_CCDGO,
+            filter: feature => feature.properties.dpto_ccdgo === GUAINIA_CCDGO,
             style: {
                 color: '#232323',
                 weight: 2,
@@ -47,16 +47,16 @@ fetch(departamentosWFSUrl)
         departamentosGeoJSON.addTo(map);
         controlLayer.addOverlay(departamentosGeoJSON, "Departamentos (WFS)"); // Agregar al control de capas
 
-        // Extensión de La Guajira
-        const guajiraBounds = departamentosGeoJSON.getBounds();
+        // Extensión de La Guainia
+        const guainiaBounds = departamentosGeoJSON.getBounds();
 
-        // Restringir las teselas de ambos WMS a la extensión de La Guajira
-        departamentosWMS.options.bounds = guajiraBounds;
+        // Restringir las teselas de ambos WMS a la extensión de La Guainia
+        departamentosWMS.options.bounds = guainiaBounds;
         departamentosWMS.redraw();
-        municipiosWMS.options.bounds = guajiraBounds;
+        municipiosWMS.options.bounds = guainiaBounds;
 
-        // Centrar la vista en el departamento de La Guajira
-        map.fitBounds(guajiraBounds);
+        // Centrar la vista en el departamento de La Guainia
+        map.fitBounds(guainiaBounds);
     })
     .catch(error => console.error('Error cargando WFS:', error));
 
