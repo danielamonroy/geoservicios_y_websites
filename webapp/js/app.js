@@ -94,12 +94,12 @@ baseMaps["OpenStreetMap"].addTo(map);
 
 // ============================================================
 // Capas detalladas de Guainia (cartografía base IGAC/DANE)
-// Datos recortados por departamento en datos/94_LA_GUAINIA/.
+// Datos recortados por departamento en datos/94_GUAINIA/.
 // Se cargan de forma diferida (lazy): solo se descarga el GeoJSON
 // cuando el usuario activa la capa en el control, porque algunas
 // (Drenaje, Curvas de Nivel, Vías) pesan varios MB.
 // ============================================================
-const guainiaDataDir = 'https://epiragauta.github.io/geoservicios_y_websites/webapp/datos/94_LA_GUAINÍA/';
+const guainiaDataDir = 'https://epiragauta.github.io/geoservicios_y_websites/webapp/datos/94_GUAINÍA/';
 
 const capasGuainia = [
     {
